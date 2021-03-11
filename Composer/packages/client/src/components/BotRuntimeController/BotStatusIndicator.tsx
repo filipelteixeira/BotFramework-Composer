@@ -9,7 +9,7 @@ import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import formatMessage from 'format-message';
 import { SharedColors } from '@uifabric/fluent-theme';
 
-import { botRuntimeErrorState, botStatusState } from '../../recoilModel';
+import { botRuntimeErrorState, botStatusState, dispatcherState } from '../../recoilModel';
 import { BotStatus, BotStatusesCopy } from '../../constants';
 
 import { ErrorCallout } from './errorCallout';
@@ -29,6 +29,7 @@ export const BotStatusIndicator: React.FC<BotStatusIndicatorProps> = ({
   projectId,
   setGlobalErrorCalloutVisibility,
 }) => {
+  const { setActiveTabInDebugPanel, setDebugPanelExpansion } = useRecoilValue(dispatcherState);
   const botStatus = useRecoilValue(botStatusState(projectId));
   const botActionRef = useRef(null);
   const botRuntimeErrorMsg = useRecoilValue(botRuntimeErrorState(projectId));
@@ -42,8 +43,8 @@ export const BotStatusIndicator: React.FC<BotStatusIndicatorProps> = ({
   }
 
   function openErrorDialog() {
-    setCurrentCalloutVisibility(true);
-    setGlobalErrorCalloutVisibility(true);
+    setActiveTabInDebugPanel('RuntimeLogs');
+    setDebugPanelExpansion(true);
   }
 
   const onTryStartAgain = () => {

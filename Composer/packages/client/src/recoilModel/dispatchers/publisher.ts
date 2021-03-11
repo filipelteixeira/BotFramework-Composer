@@ -16,7 +16,7 @@ import {
   settingsState,
   luFilesState,
   qnaFilesState,
-  runtimeLogsState,
+  botRuntimeLogsState,
 } from '../atoms/botState';
 import { openInEmulator } from '../../utils/navigation';
 import { botEndpointsState } from '../atoms';
@@ -114,7 +114,7 @@ export const publisherDispatcher = () => {
     // a check should be added to this that ensures this ONLY applies to the "default" profile.
     if (target.name === defaultPublishConfig.name) {
       if (data.runtimeLogs) {
-        set(runtimeLogsState(projectId), data.runtimeLogs);
+        set(botRuntimeLogsState(projectId), data.runtimeLogs);
       }
       if (status === PUBLISH_SUCCESS && endpointURL) {
         const rootBotId = await snapshot.getPromise(rootBotProjectIdSelector);
@@ -308,6 +308,7 @@ export const publisherDispatcher = () => {
   const resetBotRuntimeError = useRecoilCallback((callbackHelpers: CallbackInterface) => async (projectId: string) => {
     const { reset } = callbackHelpers;
     reset(botRuntimeErrorState(projectId));
+    reset(botRuntimeLogsState(projectId));
   });
 
   const openBotInEmulator = useRecoilCallback((callbackHelpers: CallbackInterface) => async (projectId: string) => {

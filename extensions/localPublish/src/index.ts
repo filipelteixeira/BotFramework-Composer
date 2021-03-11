@@ -31,7 +31,7 @@ interface RunningBot {
   status: number;
   result?: {
     message: string;
-    runtimeLogs?: string[];
+    runtimeLogs?: string;
   };
 }
 interface PublishConfig {
@@ -106,7 +106,7 @@ class LocalPublisher implements PublishPlugin<PublishConfig> {
       ...botData,
       result: {
         ...botData.result,
-        runtimeLogs: [...botData.result?.runtimeLogs, runtimeLogs],
+        runtimeLogs,
       },
     };
   };
@@ -571,7 +571,7 @@ class LocalPublisher implements PublishPlugin<PublishConfig> {
             .then(() => {
               this.removeListener(proc);
               delete LocalPublisher.runningBots[botId];
-              resolve();
+              resolve('Stopped');
             })
             .catch((err) => {
               reject(err);
