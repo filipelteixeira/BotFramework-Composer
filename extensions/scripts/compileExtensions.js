@@ -81,7 +81,7 @@ const writeToCache = (name, lastModified) => {
 };
 
 const missingMain = (extPath, packageJSON) => {
-  const main = packageJSON?.main;
+  const main = packageJSON ? packageJSON.main : undefined;
 
   if (main) {
     return !fs.existsSync(path.join(extPath, main));
