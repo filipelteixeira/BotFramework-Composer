@@ -27,6 +27,8 @@ export class AppUpdater extends EventEmitter {
     autoUpdater.allowPrerelease = true;
     autoUpdater.autoInstallOnAppQuit = false; // we will explicitly call the install logic
 
+    autoUpdater.logger = { info: log, warn: log, error: log };
+    autoUpdater.checkForUpdatesAndNotify();
     autoUpdater.on('error', this.onError.bind(this));
     autoUpdater.on('checking-for-update', this.onCheckingForUpdate.bind(this));
     autoUpdater.on('update-available', this.onUpdateAvailable.bind(this));
