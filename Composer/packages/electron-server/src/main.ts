@@ -4,7 +4,7 @@
 import { join, resolve } from 'path';
 
 import { AppUpdaterSettings, UserSettings } from '@bfc/shared';
-import { app, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import { UpdateInfo } from 'electron-updater';
 import fixPath from 'fix-path';
 import formatMessage from 'format-message';
@@ -124,6 +124,10 @@ function initializeAppUpdater(settings: AppUpdaterSettings) {
       }
       if (name === 'install-update') {
         log('install-update');
+        const browserWindows = BrowserWindow.getAllWindows();
+        browserWindows.forEach((test) => {
+          test.destroy();
+        });
         appUpdater.quitAndInstall();
       }
     });
@@ -134,6 +138,10 @@ function initializeAppUpdater(settings: AppUpdaterSettings) {
       log('quit');
       if (appUpdater.downloadedUpdate) {
         log('need to run quitAndInstall');
+        const browserWindows = BrowserWindow.getAllWindows();
+        browserWindows.forEach((test) => {
+          test.destroy();
+        });
         appUpdater.quitAndInstall();
       }
     });
