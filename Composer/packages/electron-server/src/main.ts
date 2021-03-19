@@ -114,13 +114,16 @@ function initializeAppUpdater(settings: AppUpdaterSettings) {
       mainWindow.webContents.send('app-update', 'update-downloaded');
     });
     appUpdater.on('error', (err) => {
+      log(`error here: ${err}`);
       mainWindow.webContents.send('app-update', 'error', err);
     });
     ipcMain.on('app-update', (_ev, name: string, _payload) => {
       if (name === 'start-download') {
+        log('start-download');
         appUpdater.downloadUpdate();
       }
       if (name === 'install-update') {
+        log('install-update');
         appUpdater.quitAndInstall();
       }
     });
@@ -128,7 +131,9 @@ function initializeAppUpdater(settings: AppUpdaterSettings) {
       appUpdater.setSettings(settings.appUpdater);
     });
     app.once('quit', () => {
+      log('quit');
       if (appUpdater.downloadedUpdate) {
+        log('need to run quitAndInstall');
         appUpdater.quitAndInstall();
       }
     });
