@@ -73,6 +73,7 @@ export class AppUpdater extends EventEmitter {
   public quitAndInstall() {
     logger('Quitting and installing...');
     autoUpdater.quitAndInstall();
+    this._downloadedUpdate = false;
   }
 
   public setSettings(settings: AppUpdaterSettings) {
